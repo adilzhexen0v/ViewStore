@@ -1,0 +1,17 @@
+{{ define "title"}}Create a new post{{end}}
+
+{{ define "main" }}
+               <form action="/post/newpost" method="POST" class="register content__item" enctype="multipart/form-data" novalidate>
+                    <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                    <div class="title">Create a new post</div>
+                    <label>Content</label>
+                    <textarea name="content"></textarea>
+                    <label>Images</label>
+                    <label id="btn__images" for="upload__images">
+                       Upload Images
+                    </label>
+                    <input type="file" id="upload__images" name="images" multiple>
+                    <input type="submit" value="Publish a new post" class="btn">
+                    <p>Already have an account? <a href="./login.html">Login</a></p>
+               </form>
+{{end}}

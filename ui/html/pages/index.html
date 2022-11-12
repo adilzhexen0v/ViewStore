@@ -1,0 +1,81 @@
+{{ define "title"}}Home page{{end}}
+{{with .Flash}}
+<div class='flash'>{{.}}</div>
+{{end}}
+{{ define "main" }}
+               <div class="content__list">
+                    <div class="content__part content__part__large">
+                         {{ if .Posts }}
+                         <div class="posts show">
+                              {{ range .Posts }}
+                              <div class="post">
+                                   <div class="post__author">
+                                        <a href="/user/view/{{.AuthorId}}" class="author">
+                                             {{ if eq .AuthorPicture "default" }}
+                                             <img src="/static/img/default_ava.png" class="avatar" alt="default_avatar">
+                                             {{else}}
+                                             <img src="/static/media/{{.AuthorPicture}}" class="avatar" alt="default_avatar">
+                                             {{end}}
+                                             <div class="post__name">{{.AuthorName}} {{.AuthorSurname}}</div>
+                                        </a>
+                                        <div class="created">{{humanDate .Created}}</div>
+                                   </div>
+                                   {{ if eq .ImagesLength "two"}}
+                                   <div class="post__images two__img">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{ else if eq .ImagesLength "three" }}
+                                   <div class="post__images three__img">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{else}}
+                                   <div class="post__images">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{end}}
+
+                                   <div class="post__content">
+                                        {{.Content}}
+                                   </div>
+                              </div>
+                              {{end}}
+                         </div>
+                    {{ else }}
+                    <div class="content__item">
+                         <p>There's nothing to see here yet!</p>
+                    </div>
+                    {{ end }}
+                    </div>
+                    <div class="content__part content__part__small">
+                         <div class="content__item">
+                              <a href="/myprofile" class="main__link">My Profile</a>
+                              <a href="/recommendations" class="main__link">Recommendations</a>
+                              <a href="/post/create" class="main__link">New Post + </a>
+                         </div>
+                         <div class="content__item">
+                              <div class="title">My Subscriptions</div>
+                              {{if .Users}}
+                              {{ range .Users }}
+                              <a href="/user/view/{{.ID}}" class="sub">
+                                   {{ if eq .ProfilePicture "default" }}
+                                   <img src="/static/img/default_ava.png" class="avatar" alt="default_avatar">
+                                   {{ else }}
+                                   <img src="/static/media/{{.ProfilePicture}}" class="avatar" alt="avatar">
+                                   {{ end }}
+                                   <div class="name">{{.Name}} {{.Surname}}</div>
+                              </a>
+                              {{ end }}
+                              {{else}}
+                              <p>You haven't subscribed to anyone yet!</p><br>
+                              <center><a href="/recommendations" class="btn__inverse">Find friends</a></center>
+                              {{end}}
+                         </div>
+                    </div>
+               </div>
+{{end}}

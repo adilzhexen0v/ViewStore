@@ -1,0 +1,63 @@
+{{ define "title"}}Recommendations{{end}}
+{{with .Flash}}
+<div class='flash'>{{.}}</div>
+{{end}}
+{{ define "main" }}
+{{ $token := .CSRFToken}}
+
+<div class="content__list">
+    <div class="content__part content__part__large">
+        {{ if .NonUsers }}
+        {{ range .NonUsers }}
+        <div class="non__sub">
+            <div class="non__sub__part">
+                <div>
+                    {{ if eq .ProfilePicture "default" }}
+                    <img src="/static/img/default_ava.png" alt="default_avatar">
+                    {{ else }}
+                    <img src="/static/media/{{ .ProfilePicture }}" alt="avatar">
+                    {{ end }}
+                </div>
+                <div>
+                    <h4>{{ .Name}} {{ .Surname }}</h4>
+                </div>
+            </div>
+            <div class="non__sub__part">
+                <form action="/user/subscribe" method="post">
+                    <input type='hidden' name='csrf_token' value='{{$token}}'>
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button class="btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        {{ end }}
+        {{ else }}
+        <p>You have subscribed to everyone yet!</p>
+        {{ end }}
+    </div>
+    <div class="content__part content__part__small">
+        <div class="content__item">
+            <a href="/myprofile" class="main__link">My Profile</a>
+            <a href="/recommendations" class="main__link">Recommendations</a>
+            <a href="/post/create" class="main__link">New Post + </a>
+        </div>
+        <div class="content__item">
+            <div class="title">My Subscriptions</div>
+            {{if .Users}}
+            {{ range .Users }}
+            <a href="/user/view/{{.ID}}" class="sub">
+                {{ if eq .ProfilePicture "default" }}
+                <img src="/static/img/default_ava.png" class="avatar" alt="default_avatar">
+                {{ else }}
+                <img src="/static/media/{{.ProfilePicture}}" class="avatar" alt="avatar">
+                {{ end }}
+                <div class="name">{{.Name}} {{.Surname}}</div>
+            </a>
+            {{ end }}
+            {{else}}
+            <p>You haven't subscribed to anyone yet!</p>
+            {{end}}
+        </div>
+    </div>
+</div>
+{{end}}

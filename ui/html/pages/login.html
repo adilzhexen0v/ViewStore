@@ -1,0 +1,23 @@
+{{ define "title"}}Login{{end}}
+
+{{ define "main" }}
+          <form action="/user/login" method="POST" class="register content__item" novalidate>
+               <div class="title">Login</div>
+               {{range .Form.NonFieldErrors}}
+               <div class='error__div'>{{.}}</div>
+               {{end}}
+               <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+               <label>E-mail</label>
+               <input type="email" name="email" placeholder="Enter a email" value="{{.Form.Email}}">
+               {{with .Form.FieldErrors.email}}
+               <label class='error'>{{.}}</label>
+               {{end}}
+               <label>Password</label>
+               <input type="password" name="password" placeholder="Enter a password">
+               {{with .Form.FieldErrors.password}}
+               <label class='error'>{{.}}</label>
+               {{end}}
+               <input type="submit" value="Login" class="btn">
+               <p>Don't you have an account? <a href="/user/signup">Sign Up</a></p>
+          </form>
+{{end}}

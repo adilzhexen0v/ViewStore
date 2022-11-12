@@ -1,0 +1,113 @@
+{{ define "title"}}My Profile{{end}}
+
+{{ define "main" }}
+               <div class="content__list">
+                    <div class="content__part content__part__small">
+                         <div class="content__item account">
+                              <div class="account__avatar">
+                                   {{ if eq .User.ProfilePicture "default" }}
+                                   <img src="/static/img/default_ava.png" alt="default_avatar">
+                                   {{else}}
+                                   <img src="/static/media/{{.User.ProfilePicture}}" alt="default_avatar">
+                                   {{end}}
+                              </div>
+                              <div class="account__name">{{.User.Name}} {{.User.Surname}}</div>
+                              <div class="account__info__list">
+                                   <div class="account__info__part">
+                                        <div class="number">{{ len .Posts }}</div>
+                                        <div class="text">posts</div>
+                                   </div>
+                                   <div class="account__info__part">
+                                        <a href="#!">
+                                             <div class="number">{{ len .Subs }}</div>
+                                             <div class="text">followers</div>
+                                        </a>
+                                   </div>
+                                   <div class="account__info__part">
+                                        <a href="#!">
+                                             <div class="number">{{ len .Users }}</div>
+                                             <div class="text">following</div>
+                                        </a>
+                                   </div>
+                              </div>
+                         </div>
+                         <div class="content__item">
+                              <div class="main__link" id="open__change">Change data</div>
+                         </div>
+                    </div>
+                    <div class="content__part content__part__large">
+                         <div class="content__item change__data">
+                              <div class="title__part">
+                                   <i class="fa fa-times" aria-hidden="true"></i>
+                                   <div class="title">Change profile data</div>
+                                   <img src="/static/img/close.png" id="close__change">
+                              </div>
+                              <form action="/user/update" method="post" enctype="multipart/form-data">
+                                   <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                                   <div class="form__list">
+                                        <div class="form__part">
+                                             <label>Name</label>
+                                             <input type="text" name="name" value="{{.User.Name}}">
+                                             <label>Surname</label>
+                                             <input type="text" name="surname" value="{{.User.Surname}}">
+                                             <label>E-mail</label>
+                                             <input type="email" name="email" value="{{.User.Email}}">
+                                        </div>
+                                        <div class="form__part">
+                                             <label for="picture">Upload picture<i class="fa fa-upload" aria-hidden="true"></i></label>
+                                             <input type="file" name="picture" id="picture">
+                                             <input type="submit" class="btn" value="Change data">
+                                        </div>
+                                   </div>
+                              </form>
+                         </div>
+                         {{ if .Posts }}
+                         <div class="posts show">
+                              {{ range .Posts }}
+                              <div class="post">
+                                   <div class="post__author">
+                                        <a href="#!" class="author">
+                                             {{ if eq .AuthorPicture "default" }}
+                                             <img src="/static/img/default_ava.png" class="avatar" alt="default_avatar">
+                                             {{else}}
+                                             <img src="/static/media/{{.AuthorPicture}}" class="avatar" alt="default_avatar">
+                                             {{end}}
+                                             <div class="post__name">{{.AuthorName}} {{.AuthorSurname}}</div>
+                                        </a>
+                                        <div class="created">{{humanDate .Created}}</div>
+                                   </div>
+                                   {{ if eq .ImagesLength "two"}}
+                                   <div class="post__images two__img">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{ else if eq .ImagesLength "three" }}
+                                   <div class="post__images three__img">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{else}}
+                                   <div class="post__images">
+                                        {{ range .Images }}
+                                        <img src="/static/media/{{.Link}}" alt="post">
+                                        {{ end }}
+                                   </div>
+                                   {{end}}
+
+                                   <div class="post__content">
+                                        {{.Content}}
+                                   </div>
+                              </div>
+                              {{end}}
+                         </div>
+                    </div>
+                         {{ else }}
+                    <div class="content__item posts show">
+                         <p>There's nothing to see here yet!</p>
+                    </div>
+                         {{ end }}
+               </div>
+
+{{end}}

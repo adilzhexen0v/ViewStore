@@ -1,0 +1,30 @@
+{{ define "title"}}Sign Up{{end}}
+
+{{ define "main" }}
+               <form action="/user/signup" method="POST" class="register content__item" novalidate>
+                    <div class="title">Sign Up</div>
+                    <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Enter a name" value="{{.Form.Name}}">
+                    {{with .Form.FieldErrors.name}}
+                    <label class='error'>{{.}}</label>
+                    {{end}}
+                    <label>Surname</label>
+                    <input type="text" name="surname" placeholder="Enter a surname" value="{{.Form.Surname}}">
+                    {{with .Form.FieldErrors.surname}}
+                    <label class='error'>{{.}}</label>
+                    {{end}}
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="Enter a email" value="{{.Form.Email}}">
+                    {{with .Form.FieldErrors.email}}
+                    <label class='error'>{{.}}</label>
+                    {{end}}
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter a password">
+                    {{with .Form.FieldErrors.password}}
+                    <label class='error'>{{.}}</label>
+                    {{end}}
+                    <input type="submit" value="Sign Up" class="btn">
+                    <p>Already have an account? <a href="/user/login">Login</a></p>
+               </form>
+{{end}}

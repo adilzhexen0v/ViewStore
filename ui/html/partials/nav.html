@@ -1,0 +1,32 @@
+
+{{define "nav"}}
+<header>
+    <div class="container">
+        <nav>
+            <a href="/" class="nav__part logo">LOGO</a>
+            <div class="nav__part">
+                {{if .IsAuthenticated}}
+                <div class="acc">
+                    {{if eq .CurrentUser.ProfilePicture "default"}}
+                    <a href="/myprofile"><img src="/static/img/default_ava.png" class="avatar" alt="default_avatar"></a>
+                    {{else}}
+                    <a href="/myprofile"><img src="/static/media/{{.CurrentUser.ProfilePicture}}" class="avatar" alt="avatar"></a>
+                    {{end}}
+                    <img src="/static/img/caret-down.png" id="open__account__modal">
+                </div>
+                <div id="acc__modal">
+                    <a href="/myprofile" class="acc__modal__btn main__link">My profile</a>
+                    <form action="/user/logout" method="POST">
+                        <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                        <input type="submit" class="acc__modal__btn main__link" value="Log out">
+                    </form>
+                </div>
+                {{else}}
+                <a href="/user/signup" class="nav__link btn">Sign Up</a>
+                <a href="/user/login" class="nav__link btn__inverse">Login</a>
+                {{end}}
+            </div>
+        </nav>
+    </div>
+</header>
+{{end}}
